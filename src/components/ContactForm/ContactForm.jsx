@@ -2,16 +2,19 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Form, Label, Input, Button } from './ContactForm.styled';
 
+
 export function ContactForm({ onSubmit }) {
-    const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
  
     const handleSubmit = event => {
         event.preventDefault();
         onSubmit({ name: name, number: number });
-        reset();
+      reset();
+      
     };
-
+  
     const handleChange = event => {
         const { name, value } = event.currentTarget;
       

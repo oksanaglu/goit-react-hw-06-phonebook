@@ -5,6 +5,11 @@ import ContactList from "./ContactList";
 import Filter from "./Filter";
 import { Container, Section, Title1, Title2 } from './App.styled';
 
+import { useDispatch } from 'react-redux';
+
+import { addContacts, deleteContacts, filterContacts, } from 'redux/contactSlice';
+
+
 export function App() {
   const [contacts, setContacts] = useState([
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -15,8 +20,10 @@ export function App() {
   
   const [filter, setFilter] = useState('');
 
-
+  const dispatch = useDispatch();
+  
   const addContact = ({ name, number }) => {
+    
     const findName = contacts.find(
       contact => contact.name.toLowerCase() === name.normalizedFind
     );
@@ -30,6 +37,7 @@ export function App() {
     if (findNumber) {
       return alert(`This phone number is already in use.`);
     }
+  
 
     const newContact = {
       name,
@@ -38,6 +46,8 @@ export function App() {
     };
 
     setContacts(contacts => [...contacts, newContact]);
+    dispatch(addContacts(newContact));
+    
   };
 
  
@@ -47,6 +57,7 @@ export function App() {
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
+    
   };
 
   const visibleContacts = getContacts();
@@ -55,10 +66,12 @@ export function App() {
     setContacts(contacts =>
       contacts.filter(contact => contact.id !== contactId),
     );
+     dispatch(deleteContacts(contactId));
   };
 
   const handleFilter = e => {
     setFilter(e.currentTarget.value);
+    dispatch(filterContacts(e.currentTarget.value));
   };
 
   useEffect(() => {

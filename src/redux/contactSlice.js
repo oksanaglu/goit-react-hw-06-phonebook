@@ -1,22 +1,38 @@
-// import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-// export const contactSlice = createSlice({
-//   name: 'contacts',
-//   initialState,
-//   reducers: {
-//     increment: (state, action) => {
-   
-//       state.value += 1
-//     },
-//     decrement: (state) => {
-//       state.value -= 1
-//     },
-//     incrementByAmount: (state, action: PayloadAction<number>) => {
-//       state.value += action.payload
-//     },
-//   },
-// })
+export const contactSlice = createSlice({
+    name: 'contacts',
+    initialState: {
+        contacts: [],
+        filter: ""
+    },
+    reducers: {
+        addContacts(state, action) {
+            state.contacts.push(action.payload);
+        },
+        deleteContacts(state, action) {
+            state.contacts = state.contacts.filter(contact => contact.id !== action.payload);
+        },
+        filterContacts(state, action) {
+            state.filter = action.payload;
+        },
+    },
+});
 
-// export const { increment, decrement, incrementByAmount } = counterSlice.actions
+const persistConfig = {
+  key: 'contacts',
+  storage,
+  whitelist: ['contacts'],
+};
 
-// export default counterSlice.reducer
+export const contactReducer = persistReducer(
+  persistConfig,
+  contactSlice.reducer
+);
+
+export const { addContacts, deleteContacts, filterContacts } = contactSlice.actions
+
+export default contactSlice.reducer
+
