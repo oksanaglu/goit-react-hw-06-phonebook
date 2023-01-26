@@ -8,8 +8,9 @@ export const App = () => {
   return (
     <Container>
       <Title1>Phonebook</Title1>
+      <p>You can add new contacts below:</p>
       <ContactForm />
-      <Title2>Contacts</Title2>
+      <Title2>Your Contacts</Title2>
       <Filter />
       <ContactList />
     </Container>
